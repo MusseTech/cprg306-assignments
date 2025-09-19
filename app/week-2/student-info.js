@@ -1,13 +1,13 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function StudentInfo() {
     return (
         <div>
-            <p>Amal Musse</p>
+            <p>Name: Amal Musse</p>
             <p>
                 GitHub:{" "}
-                <Link href="https://github.com/MusseTech/cprg306-assignments" target="_blank">
-                    cprg306-assignments
+                <Link href="https://github.com/MusseTech/cprg306-assignments">
+                    https://github.com/MusseTech/cprg306-assignments
                 </Link>
             </p>
         </div>

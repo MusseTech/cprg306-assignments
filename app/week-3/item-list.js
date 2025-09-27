@@ -18,12 +18,14 @@ const itemList = [
 const ItemList = () => {
     return (
         <ul className="mt-8">
-            <item 
-            kety={index}
+            {itemList.map((item, index) => (
+            <Item 
+            key={index}
             name={item.name}
             quantity={item.quantity}
             category={item.category}
-            />
+            />  
+            ))}
         </ul>
     );
 };

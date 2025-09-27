@@ -9,5 +9,5 @@ export default function Page() {
             <ItemList />
         </main>
     );
-};
+}
 

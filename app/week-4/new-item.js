@@ -7,62 +7,70 @@ export default function NewItem() {
     const maxQuantity = 20;
     const minQuantity = 1;
 
-    // Create increment function
     const increment = () => {
         setQuantity(prevQuantity => Math.min(prevQuantity + 1, maxQuantity));
     };
 
-    // Create decrement function
     const decrement = () => {
         setQuantity(prevQuantity => Math.max(prevQuantity - 1, minQuantity));
     };
 
     return (
-        <div className="p-4 m-4 bg-white rounded-lg shadow-lg max-w-sm">
-            <h2 className="text-2xl font-bold mb-4">Add New Item</h2>
-
-            <div className="flex items-center space-x-4">
-                <label className="text-lg font-medium text-gray-700 w-24">Quantity:</label>
+        // Main container for the white card
+        // Used a fixed width (w-96) to match the length of the title
+        <div className="p-6 bg-white rounded-lg shadow-lg w-96"> 
+            
+            {/* Quantity Label and Display (in the same row, separated) */}
+            <div className="flex items-center mb-6"> {/* Added mb-6 for spacing */}
+                <label className="text-xl font-medium text-gray-700">Quantity:</label>
                 
-                <div className="flex border border-gray-300 rounded-lg overflow-hidden">
-                    {/* Decrement Button */}
-                    <button
-                        onClick={decrement}
-                        disabled={quantity === minQuantity}
-                        className={`
-                            px-4 py-2 text-xl font-semibold transition-colors duration-150 
-                            ${quantity === minQuantity 
-                                ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
-                                : 'bg-blue-500 text-white hover:bg-blue-600'
-                            }
-                        `}
-                        aria-label="Decrement quantity"
-                    >
-                        −
-                    </button>
-                    
-                    {/* Quantity Display */}
-                    <span className="w-12 text-center text-lg font-bold py-2 bg-gray-50 text-gray-800 border-x border-gray-300">
-                        {quantity}
-                    </span>
-
-                    {/* Increment Button */}
-                    <button
-                        onClick={increment}
-                        disabled={quantity === maxQuantity}
-                        className={`
-                            px-4 py-2 text-xl font-semibold transition-colors duration-150 
-                            ${quantity === maxQuantity 
-                                ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
-                                : 'bg-blue-500 text-white hover:bg-blue-600'
-                            }
-                        `}
-                        aria-label="Increment quantity"
-                    >
-                        +
-                    </button>
-                </div> 
+                {/* Displaying the quantity number right next to the label */}
+                <span className="text-xl font-bold ml-2 text-gray-400">
+                    {quantity}
+                </span>
             </div>
+
+            {/* Decrement and Increment Buttons (in the same row, separate) */}
+            <div className="flex items-center space-x-4 mb-6">
+                
+                {/* Decrement Button */}
+                <button
+                    onClick={decrement}
+                    disabled={quantity === minQuantity}
+                    className={`
+                        px-6 py-3 text-2xl font-semibold rounded-lg w-20 transition-colors duration-150 
+                        ${quantity === minQuantity 
+                            // Disabled style: light gray background, gray text
+                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                            // Active style: light gray background, dark text
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                        }
+                    `}
+                    aria-label="Decrement quantity"
+                >
+                    −
+                </button>
+                
+                {/* Increment Button */}
+                <button
+                    onClick={increment}
+                    disabled={quantity === maxQuantity}
+                    className={`
+                        px-6 py-3 text-2xl font-semibold rounded-lg w-20 transition-colors duration-150 
+                        ${quantity === maxQuantity 
+                            // Disabled style remains gray
+                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                            // Active style is blue
+                            : 'bg-blue-600 text-white hover:bg-blue-700'
+                        }
+                    `}
+                    aria-label="Increment quantity"
+                >
+                    +
+                </button>
+            </div>
+            
+            {/* Allowed Range */}
             <p className="mt-2 text-sm text-gray-500">Allowed range: 1–20</p>
         </div>
     );

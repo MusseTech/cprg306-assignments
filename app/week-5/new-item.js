@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 export default function NewItem() {
-    // State variables for the Week 5 assignment
+    // State variables
     const [name, setName] = useState("");
     const [quantity, setQuantity] = useState(1);
     const [category, setCategory] = useState("produce");
@@ -12,7 +12,7 @@ export default function NewItem() {
     const maxQuantity = 20;
     const minQuantity = 1;
 
-    // Increment/decrement functions for the counter
+    // Counter functions
     const increment = () => {
         setQuantity(prevQuantity => Math.min(prevQuantity + 1, maxQuantity));
     };
@@ -21,7 +21,7 @@ export default function NewItem() {
         setQuantity(prevQuantity => Math.max(prevQuantity - 1, minQuantity));
     };
 
-    // List of categories for the dropdown
+    // List of categories
     const categories = [
         "Produce", "Dairy", "Bakery", "Meat", "Frozen Foods", 
         "Canned Goods", "Dry Goods", "Beverages", "Snacks", 
@@ -30,35 +30,34 @@ export default function NewItem() {
 
     // Form submission handler
     const handleSubmit = (event) => {
-        event.preventDefault(); // Stop default form submission
+        event.preventDefault();
 
-        const item = {
-            name,
-            quantity,
-            category,
-        };
+        // The item object is created but no longer logged or alerted
+        const item = { name, quantity, category };
 
-        console.log(item);
-        alert(`Adding Item: Name: ${name}, Quantity: ${quantity}, Category: ${category}`);
+        // 🚨 REMOVED: console.log(item);
+        // 🚨 REMOVED: alert(`Adding Item: Name: ${name}, Quantity: ${quantity}, Category: ${category}`);
 
-        // Reset form fields after submission
+        // Reset form fields
         setName("");
         setQuantity(1);
         setCategory("produce");
     };
 
     return (
-        <main className="flex justify-center w-full">
-            <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-xl m-4">
-                {/* *** Title Change Applied Here *** The h1 text is changed to "Week 5 — New Item"
-                */}
-                <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Week 5 — New Item</h1>
+        <main className="flex flex-col items-center w-full"> 
+            
+            {/* Main Title */}
+            <h1 className="text-4xl font-bold mb-6 text-white text-center">Week 5 — New Item</h1>
+            
+            {/* The White Card Container */}
+            <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     
                     {/* Item Name Field */}
                     <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-500">
                             Item Name
                         </label>
                         <input
@@ -74,7 +73,7 @@ export default function NewItem() {
 
                     {/* Quantity Section (Week 4 style counter) */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-medium text-gray-500">
                             Quantity (1-20)
                         </label>
                         <div className="flex items-center mt-1 space-x-2">
@@ -120,7 +119,7 @@ export default function NewItem() {
 
                     {/* Category Field */}
                     <div>
-                        <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="category" className="block text-sm font-medium text-gray-500">
                             Category
                         </label>
                         <select

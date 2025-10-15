@@ -1,77 +1,126 @@
-"use client";
+"use client"; 
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-export default function NewItem() {
-    const [quantity, setQuantity] = useState(1);
-    const maxQuantity = 20;
-    const minQuantity = 1;
+const NewItem = () => {
+    // 1. Setting up our state variables. Gotta track what the user is doing!
+    // Name starts blank, because, well, we haven't named it yet!
+    const [name, setName] = useState("");
+    
+    // Quantity defaults to 1—makes sense for a new item.
+    const [quantity, setQuantity] = useState(1); 
+    
+    // Category defaults to "produce." Everyone loves veggies!
+    const [category, setCategory] = useState("produce"); 
 
-    const increment = () => {
-        setQuantity(prevQuantity => Math.min(prevQuantity + 1, maxQuantity));
+    // This array makes our dropdown category list super easy to manage.
+    const categories = [
+        "Produce", "Dairy", "Bakery", "Meat", "Frozen Foods", 
+        "Canned Goods", "Dry Goods", "Beverages", "Snacks", 
+        "Household", "Other"
+    ];
+
+    // The function that runs when they hit 'Add Item'. It's the core logic!
+    const handleSubmit = (event) => {
+        // Stop the browser from refreshing the page on submit (that's the default behavior)
+        event.preventDefault();
+
+        // Package up all the current state values into one neat item object.
+        const item = {
+            name,
+            quantity,
+            category,
+        };
+
+        // Let's see it in the console, just to confirm it looks right.
+        console.log(item);
+
+        // Pop an alert! This confirms to the user what they just added.
+        alert(`Adding Item: Name: ${name}, Quantity: ${quantity}, Category: ${category}`);
+
+        // Reset time! Clear everything out and get ready for the next item.
+        setName("");
+        setQuantity(1); 
+        setCategory("produce"); // Back to the veggie default!
     };
-
-    const decrement = () => {
-        setQuantity(prevQuantity => Math.max(prevQuantity - 1, minQuantity));
-    };
-
+    
+    // 2. The Return Statement: What the user actually sees.
     return (
-        // Main container for the white card
-        // Used a fixed width (w-96) to match the length of the title
-        <div className="p-6 bg-white rounded-lg shadow-lg w-96"> 
-            
-            {/* Quantity Label and Display (in the same row, separated) */}
-            <div className="flex items-center mb-6"> {/* Added mb-6 for spacing */}
-                <label className="text-xl font-medium text-gray-700">Quantity:</label>
+        // I tossed in some simple Tailwind classes to make it look decent—a nice card, centered.
+        <main className="flex justify-center w-full">
+            <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-xl m-4">
+                <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Time to Add a New Item!</h1>
                 
-                {/* Displaying the quantity number right next to the label */}
-                <span className="text-xl font-bold ml-2 text-gray-400">
-                    {quantity}
-                </span>
-            </div>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    
+                    {/* The Name Input */}
+                    <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                            Item Name (Required!)
+                        </label>
+                        <input
+                            type="text"
+                            id="name"
+                            value={name} // Shows the current state value
+                            onChange={(e) => setName(e.target.value)} // Updates the 'name' state as they type
+                            required // Can't submit without this!
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                            placeholder="e.g., Organic Bananas"
+                        />
+                    </div>
 
-            {/* Decrement and Increment Buttons (in the same row, separate) */}
-            <div className="flex items-center space-x-4 mb-6">
-                
-                {/* Decrement Button */}
-                <button
-                    onClick={decrement}
-                    disabled={quantity === minQuantity}
-                    className={`
-                        px-6 py-3 text-2xl font-semibold rounded-lg w-20 transition-colors duration-150 
-                        ${quantity === minQuantity 
-                            // Disabled style: light gray background, gray text
-                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
-                            // Active style: light gray background, dark text
-                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                        }
-                    `}
-                    aria-label="Decrement quantity"
-                >
-                    −
-                </button>
-                
-                {/* Increment Button */}
-                <button
-                    onClick={increment}
-                    disabled={quantity === maxQuantity}
-                    className={`
-                        px-6 py-3 text-2xl font-semibold rounded-lg w-20 transition-colors duration-150 
-                        ${quantity === maxQuantity 
-                            // Disabled style remains gray
-                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
-                            // Active style is blue
-                            : 'bg-blue-600 text-white hover:bg-blue-700'
-                        }
-                    `}
-                    aria-label="Increment quantity"
-                >
-                    +
-                </button>
+                    {/* The Quantity Input */}
+                    <div>
+                        <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
+                            How Many?
+                        </label>
+                        <input
+                            type="number"
+                            id="quantity"
+                            min="1" 
+                            value={quantity}
+                            // Important: Convert to a Number, inputs return strings!
+                            onChange={(e) => setQuantity(Number(e.target.value))}
+                            required
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        />
+                    </div>
+
+                    {/* The Category Dropdown */}
+                    <div>
+                        <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+                            What Category Does It Belong To?
+                        </label>
+                        <select
+                            id="category"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            required
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        >
+                            {/* Loop through our categories array to build the options */}
+                            {categories.map((cat) => (
+                                <option 
+                                    key={cat} 
+                                    value={cat.toLowerCase().replace(/\s/g, '-')} // Clean value for backend use
+                                >
+                                    {cat}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* The Submit Button: Go time! */}
+                    <button
+                        type="submit"
+                        className="w-full py-2 px-4 border rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out"
+                    >
+                        Add Item
+                    </button>
+                </form>
             </div>
-            
-            {/* Allowed Range */}
-            <p className="mt-2 text-sm text-gray-500">Allowed range: 1–20</p>
-        </div>
+        </main>
     );
-}
+};
+
+export default NewItem;

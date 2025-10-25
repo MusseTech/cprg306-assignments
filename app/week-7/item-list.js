@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import Item from './item';
-import itemsData from './items.json'; 
+// REMOVE this line: import itemsData from './items.json'; 
 
-const ItemList = () => {
+const ItemList = ({ items }) => {  // Add items as prop
     // State to track sorting preference: "name" or "category"
     const [sortBy, setSortBy] = useState("name");
 
@@ -15,13 +15,12 @@ const ItemList = () => {
         return `${baseClass} ${
             sortBy === sortValue 
                 ? 'bg-blue-600 text-white' // Active: Blue button with white text
-                // FIX 1: Inactive: White background (bg-white) with dark text (text-gray-800)
                 : 'bg-white text-gray-800 hover:bg-gray-200' 
         }`;
     };
 
     const getSortedItems = () => {
-        let itemsToProcess = [...itemsData];
+        let itemsToProcess = [...items];  // Use the items prop instead of itemsData
 
         // Ensure robust sorting logic
         itemsToProcess.sort((a, b) => {
@@ -43,7 +42,6 @@ const ItemList = () => {
             {/* Sorting Buttons */}
             <div className="flex space-x-4 mb-8 items-center justify-start"> 
                 
-                {/* FIX 2: Made "Sort By:" label text smaller (text-lg -> text-base) and adjusted color */}
                 <span className="text-base text-gray-400">Sort By:</span> 
                 
                 <button onClick={() => setSortBy("name")} className={getButtonClass("name")}>

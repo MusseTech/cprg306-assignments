@@ -30,15 +30,18 @@ export default function Page() {
                     </Link>
                 </li>
                 <li className='mb-2'>
-                    {/* Week 6 Link */}
                     <Link href="/week-6" className="text-blue-500 hover:text-blue-400 underline">
                         week 6 Assignment
                     </Link>
                 </li>
                 <li className='mb-2'>
-                    {/* Week 7 Link */}
                     <Link href="/week-7" className="text-blue-500 hover:text-blue-400 underline">
                         week 7 Assignment
+                    </Link>
+                </li>
+                <li className='mb-2'>
+                    <Link href="/week-8" className="text-blue-500 hover:text-blue-400 underline">
+                        week 8 Assignment
                     </Link>
                 </li>
             </ul>

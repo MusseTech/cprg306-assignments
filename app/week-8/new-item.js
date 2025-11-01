@@ -20,13 +20,10 @@ const NewItem = ({ onAddItem }) => {
     const handleDecrement = () => setQuantity(prev => Math.max(1, prev - 1));
 
     return (
-        // Form Container: White background, adjusted padding, and shadow
         <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-xl text-black border border-gray-200">
             <h2 className="text-xl font-bold mb-4 text-gray-800">Item Name</h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
-                
-                 {/* Item Name Input */}
                 <div>
                     <input
                         type="text"
@@ -37,20 +34,13 @@ const NewItem = ({ onAddItem }) => {
                         className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
                 </div>
-
-                {/* Quantity Controls */}
                 <div>
                     <label className="block text-base font-medium text-gray-600 mb-2">Quantity (1–20)</label>
-                    
-                    {/* Current quantity display on its own line */}
                     <div className="mb-2">
                         <span className="text-gray-700 text-base">Current: </span>
                         <span className="text-lg font-semibold text-gray-900">{quantity}</span>
                     </div>
-                    
-                    {/* Buttons container */}
                     <div className="flex items-center space-x-2"> 
-                        {/* Minus Button */}
                         <button
                             type="button"
                             onClick={handleDecrement}
@@ -58,8 +48,6 @@ const NewItem = ({ onAddItem }) => {
                         >
                             −
                         </button>
-
-                        {/* Plus Button */}
                         <button
                             type="button"
                             onClick={handleIncrement}
@@ -69,10 +57,8 @@ const NewItem = ({ onAddItem }) => {
                         </button>
                     </div>
                 </div>
-
-                {/* Category Select */}
                 <div>
-                    <label className="block text-base font-medium text-gray-600 mb-2">Category</label>
+                    <label className="block text-base font-medium text-gray-600 mb-6">Category</label>
                     <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
@@ -91,8 +77,6 @@ const NewItem = ({ onAddItem }) => {
                         <option value="other">Other</option>
                     </select>
                 </div>
-
-                {/* Submit Button */}
                 <div>
                     <button
                         type="submit"

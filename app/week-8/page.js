@@ -4,32 +4,41 @@ import React, { useState } from 'react';
 import ItemList from './item-list';
 import NewItem from './new-item';
 import itemsData from './items.json';
+import MealIdeas from './meal-ideas';
+
+function cleanItemName(itemName) {
+    let cleanedName = itemName.split(',')[0];
+    cleanedName = cleanedName.replace(/[\u{1F600}-\u{1F6FF}]/gu, '');
+    return cleanedName.trim();
+}
 
 export default function Page() {
-    // State holds the current, dynamic shopping list data
     const [items, setItems] = useState(itemsData);
+    const [selectedItemName, setSelectedItemName] = useState("");
 
-    // Handler to add a new item to the list
     const handleAddItem = (newItem) => {
-        // Creates a new array with all previous items + the new one
         setItems(prevItems => [...prevItems, newItem]);
     };
 
+    const handleItemSelect = (item) => {
+        const cleanedName = cleanItemName(item.name);
+        setSelectedItemName(cleanedName);
+    };
+
     return (
-        // Set page background to black and center the content
-        <main className="min-h-screen p-4 bg-black text-white flex flex-col items-center">
+        <main className="min-h-screen p-4 bg-black text-white">
+            <div className="flex justify-start mb-10"></div>
+            <h1 className="text-3xl font-bold ">Shopping List + Meal Ideas</h1>
             
-            {/* Inner div to define the centered content column (max-w-xl) */}
-            <div className="w-full max-w-xl space-y-8">
+            <div className="flex gap-8">
+                <div className="w-1/2">
+                    <NewItem onAddItem={handleAddItem} />
+                    <ItemList items={items} onItemSelect={handleItemSelect} />
+                </div>
                 
-                {/* Title to match the screenshot */}
-                <h1 className="text-2xl font-bold">Week 7 — Shopping List</h1>
-
-                {/* NewItem form, passing the handler to update state */}
-                <NewItem onAddItem={handleAddItem} />
-
-                {/* ItemList, passing the current state data for display and sorting */}
-                <ItemList items={items} />
+                <div className="w-1/2">
+                    <MealIdeas ingredient={selectedItemName} />
+                </div>
             </div>
         </main>
     );

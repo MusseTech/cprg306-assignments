@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Item from './item';
 // REMOVE this line: import itemsData from './items.json'; 
 
-const ItemList = ({ items }) => {  // Add items as prop
+const ItemList = ({ items, onItemSelect }) => {  // Add items as prop
     // State to track sorting preference: "name" or "category"
     const [sortBy, setSortBy] = useState("name");
 
@@ -60,6 +60,7 @@ const ItemList = ({ items }) => {  // Add items as prop
                         name={item.name} 
                         quantity={item.quantity} 
                         category={item.category} 
+                        onSelect={onItemSelect}
                     />
                 ))}
             </ul>

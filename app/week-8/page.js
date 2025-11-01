@@ -28,7 +28,7 @@ export default function Page() {
     return (
         <main className="min-h-screen p-4 bg-black text-white">
             <div className="flex justify-start mb-10"></div>
-            <h1 className="text-3xl font-bold ">Shopping List + Meal Ideas</h1>
+            <h1 className="text-3xl font-bold mb-6">Shopping List + Meal Ideas</h1>
             
             <div className="flex gap-8">
                 <div className="w-1/2">

@@ -57,7 +57,7 @@ const NewItem = ({ onAddItem }) => {
                         </button>
                     </div>
                 </div>
-                <div>
+                <div className="mb-12">
                     <label className="block text-base font-medium text-gray-600 mb-6">Category</label>
                     <select
                         value={category}
@@ -80,7 +80,7 @@ const NewItem = ({ onAddItem }) => {
                 <div>
                     <button
                         type="submit"
-                        className="px-4 py-2 bg-green-600 text-white text-base font-semibold rounded-md hover:bg-green-700 transition-colors shadow-md"
+                        className="px-4 py-2 bg-green-600 text-white text-base font-semibold rounded-md hover:bg-green-700 transition-colors shadow-md mt-12"
                     >
                         Add Item
                     </button>

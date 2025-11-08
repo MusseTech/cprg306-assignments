@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import React from 'react'; // Optional, but good practice if using React features
-
+import React from 'react'; 
 export default function Page() {
     return (
         <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-black text-white">
@@ -42,6 +41,11 @@ export default function Page() {
                 <li className='mb-2'>
                     <Link href="/week-8" className="text-blue-500 hover:text-blue-400 underline">
                         week 8 Assignment
+                    </Link>
+                </li>
+                <li className='mb-2'>
+                    <Link href="/week-9" className="text-blue-500 hover:text-blue-400 underline">
+                        week 9 Assignment
                     </Link>
                 </li>
             </ul>

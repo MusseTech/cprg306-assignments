@@ -1,28 +1,24 @@
 "use client";
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Item from './item';
-// REMOVE this line: import itemsData from './items.json'; 
 
-const ItemList = ({ items, onItemSelect }) => {  // Add items as prop
-    // State to track sorting preference: "name" or "category"
+const ItemList = ({ items, onItemSelect }) => {  
     const [sortBy, setSortBy] = useState("name");
 
-    // Helper function to define button styling based on active state
     const getButtonClass = (sortValue) => {
         const baseClass = "px-4 py-2 text-base font-semibold rounded-md transition duration-150 ease-in-out shadow-lg";
 
         return `${baseClass} ${
             sortBy === sortValue 
-                ? 'bg-blue-600 text-white' // Active: Blue button with white text
+                ? 'bg-blue-600 text-white' 
                 : 'bg-white text-gray-800 hover:bg-gray-200' 
         }`;
     };
 
     const getSortedItems = () => {
-        let itemsToProcess = [...items];  // Use the items prop instead of itemsData
+        let itemsToProcess = [...items];  
 
-        // Ensure robust sorting logic
         itemsToProcess.sort((a, b) => {
             const comparison = a[sortBy].localeCompare(b[sortBy]);
             if (comparison !== 0) {

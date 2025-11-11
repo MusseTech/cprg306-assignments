@@ -1,10 +1,7 @@
 "use client";
 
-import { useState } from 'react';
-import ItemList from './item-list';
-import NewItem from './new-item';
-import itemsData from './items.json';
-import MealIdeas from './meal-ideas';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { useUserAuth } from "../../contexts/AuthContext";
 
@@ -20,17 +17,17 @@ function cleanItemName(itemName) {
 }
 
 export default function ShoppingListPage() {
-    const { user, firebaseSignOut } = useUserAuth();
+    const { user, loading, firebaseSignOut } = useUserAuth();
     const router = useRouter();
 
     const [items, setItems] = useState(itemsData);
     const [selectedItemName, setSelectedItemName] = useState("");
 
     useEffect(() => {
-        if (user === null) {
-            router.push("/week-9");
+        if (!loading && user === null) {
+            router.push("/week-9"); 
         }
-    }, [user, router]);
+    }, [user, loading, router]); 
 
     const handleAddItem = (newItem) => {
         setItems(prevItems => [...prevItems, newItem]);
@@ -50,7 +47,15 @@ export default function ShoppingListPage() {
         }
     };
 
-    if (user === null) {
+        if (loading) {
+            return (
+                <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+                    <p>Verifying authentication...</p>
+                </div>
+            );
+        }
+
+        if (user === null) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
                 <p>Access denied. Redirecting to login...</p>
@@ -60,10 +65,11 @@ export default function ShoppingListPage() {
 
     return (
         <main className="min-h-screen p-4 bg-black text-white">
-            <div className="flex justify-between item-center mb-6 max-w-7xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6">Shopping List + Meal Ideas</h1>
-            <div className="flex items-center space-x-4">
-                    <span className="text-sm">Welcome, {user.displayName}</span>
+            <div className="flex justify-between items-center mb-6 max-w-7xl mx-auto">
+                <h1 className="text-4xl font-bold">Shopping List + Meal Ideas</h1>
+                <div className="flex items-center space-x-4">
+                    {/* Display user name or email */}
+                    <span className="text-sm">Welcome, {user.displayName || user.email}</span>
                     <button 
                         onClick={handleLogout} 
                         className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-200"

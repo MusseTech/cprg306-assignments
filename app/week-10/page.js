@@ -1,70 +1,79 @@
 "use client";
 
-import { useStat, useEffecrt } from "react";
-import ItemList from "./item-list";
-import NewItem from "./new-item";
-import MealIdeas from "./meal-ideas";
-import { useUserAuth } from "../../components/UserAuthContext";
-import { getItems, addItem } from "../_services/shopping-list-service";
+import Link from "next/link";
+import { useUserAuth } from "../contexts/AuthContext";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Page() {
-    const { user } = useUserAuth();
-    const [items, setItems] = useStat([]);
-    const [selectionItemName, setSelectionItemName] = useStat("");
+    const { user, loading, gitHubSignIn, firebaseSignOut } = useUserAuth();
+    const router = useRouter();
 
-    async function loadItems() {
-        if (user && user.uid) {
+    useEffect(() => {
+        if (user) {
+            router.push("/week-10/shopping-list");
+        }
+    }, [user, router]);
+
+    async function handleSignIn() {
         try {
-            const fetchedItems = await getItems(user.uid);
-            setItems(fetchedItems);
+            await gitHubSignIn();
         } catch (error) {
-            console.error("Error loading items:", error);
-        }           
+            console.error("Error signing in:", error);
+        }
     }
-}
-
-    useEffecrt(() => {
-        loadItems();
-    }, [user]);
-
-    async function handleAddItem(newItem) {
+    
+    async function handleSignOut() {
         try {
-            const newItemId = await addItem(user.uid, newItem);
-            const itemWithId = { ...newItem, id: newItemId };
-            setItems([...items, itemWithId]);
-            } catch (error) {
-                console.error("Error adding item:", error);
-            }
+            await firebaseSignOut();
+        } catch (error) {
+            console.error("Error signing out:", error);
         }
+    }
 
-        function handleItemSelect(item) {
-            const cleanedName = item.name 
-            .split(",")[0]
-            .trim()
-            .replace(/[^a-zA-Z\s]/g, "");
-            setSelectionItemName(cleanedName);
-        }
-
-        if (!user) {
-            return (
-                <main className="flex items-center justify-center min-h-screen">
-                    <p className="text-xl">You must be logged in to view this page.</p>
-                    </main>
-            );
-        }
-
-        reuturn ( 
-            <main className="min-h-screen bg-slate-950 p-4">
-                <h1 className="text-3xl font-bold text-white mb-4">Shopping list</h1>
-                <div className="flex gap-4">
-                    <div className="flex-1">
-                        <NewItem onAddItem={handleAddItem} />
-                        <ItemList items={items} onItemSelect={handleItemSelect} />
-                    </div>
-                    <div className="flex-1">
-                        <MealIdeas ingredient={selectionItemName} />
-                    </div>
-                </div>
+    if (loading) {
+        return (
+            <main className="flex item-center justify-center min-h-screen bg-gray-900 text-white">
+                <p>Checking authentication status...</p>
             </main>
         );
     }
+
+    return (
+        <main className="flex item-center justify-center min-h-screen bg-gray-900">
+            <div className="text-center">
+                {!user ? (
+                    <div>
+                        <h1 className="text-4xl font-bold text-white mb-8">
+                            Shopping List App
+                        </h1>
+                        <button
+                            onClick={handleSignIn}
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 rounded-lg">
+                            Sign in with GitHub
+                        </button>
+                    </div>
+                ) : (
+                    <div>
+                        <h1 className="text-4xl font-bold text-white mb-4">
+                            Welcome, {user.displayName}!
+                            </h1>
+                            <p className="text-gray-300 mb-8">{user.email}</p>
+                            <div className="space-x-4">
+                                <Link 
+                                href="/week-10/shopping-list" 
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg inline-block">
+                                    Go to Shopping List
+                                </Link>
+                                <button 
+                                    onClick={handleSignOut}
+                                    className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg">
+                                    Sign Out
+                                </button>
+                            </div>
+                    </div>
+                )}
+            </div>
+        </main>
+    );
+}

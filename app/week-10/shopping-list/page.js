@@ -5,9 +5,10 @@ import { useRouter } from 'next/navigation';
 
 import { useUserAuth } from "../../contexts/AuthContext";
 
+import { getItems, addItem } from '../_services/shopping-list-service';
+
 import ItemList from './item-list';
 import NewItem from './new-item';
-import itemsData from './items.json';
 import MealIdeas from './meal-ideas';
 
 function cleanItemName(itemName) {
@@ -20,18 +21,33 @@ export default function ShoppingListPage() {
     const { user, loading, firebaseSignOut } = useUserAuth();
     const router = useRouter();
 
-    const [items, setItems] = useState(itemsData);
+    const [items, setItems] = useState([]);
     const [selectedItemName, setSelectedItemName] = useState("");
+
+    const loadItems = async () => {
+        if (user) {
+            const fetchedItems = await getItems(user.uid);
+            setItems(fetchedItems);
+        }
+    };
 
     useEffect(() => {
         if (!loading && user === null) {
-            router.push("/week-9"); 
+            router.push("/week-10"); 
+        } else if (user) {
+            loadItems();
         }
     }, [user, loading, router]); 
 
-    const handleAddItem = (newItem) => {
-        setItems(prevItems => [...prevItems, newItem]);
-    };
+    const handleAddItem =  async (newItem) => {
+        if (user) { 
+            const newItemId = await addItem(user.uid, newItem);
+            if (newItemId) {
+                const itemWithId = { id: newItemId, ...newItem };
+                setItems(prevItems => [...prevItems, itemWithId]);
+        }
+    }    
+};
 
     const handleItemSelect = (item) => {
         const cleanedName = cleanItemName(item.name);

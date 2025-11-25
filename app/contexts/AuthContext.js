@@ -28,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
     }, []);
 
     return (
-    <AuthContext.Provider value={{ user, gitHubSignIn, firebaseSignOut }}>
+    <AuthContext.Provider value={{ user, loading, gitHubSignIn, firebaseSignOut }}>
         {children}
     </AuthContext.Provider>
     );

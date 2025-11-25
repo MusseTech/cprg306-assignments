@@ -7,6 +7,7 @@ const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const gitHubSignIn = () => {
     const provider = new GithubAuthProvider();
@@ -20,7 +21,9 @@ export const AuthContextProvider = ({ children }) => {
     useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
+    setLoading(false);
     });
+
     return () => unsubscribe();
     }, []);
 
@@ -28,7 +31,7 @@ export const AuthContextProvider = ({ children }) => {
     <AuthContext.Provider value={{ user, gitHubSignIn, firebaseSignOut }}>
         {children}
     </AuthContext.Provider>
-);
+    );
 };
 
 export const useUserAuth = () => {
